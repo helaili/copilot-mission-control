@@ -21,6 +21,12 @@ describe('AppHeader', () => {
     logout()
   })
 
+  it('renders the app name from config', async () => {
+    const { appName } = useAppConfig()
+    const wrapper = await mountHeader()
+    expect(wrapper.text()).toContain(appName)
+  })
+
   it('renders the app logo icon', async () => {
     const wrapper = await mountHeader()
     expect(wrapper.html()).toContain('mdi-rocket-launch')

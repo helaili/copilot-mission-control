@@ -2,6 +2,7 @@
 const emit = defineEmits<{ toggleDrawer: [] }>()
 
 const { isLoggedIn, userName, login, logout } = useAuth()
+const { appName } = useAppConfig()
 </script>
 
 <template>
@@ -19,7 +20,7 @@ const { isLoggedIn, userName, login, logout } = useAuth()
       <div class="d-flex align-center ga-2">
         <v-icon color="white" size="28">mdi-rocket-launch</v-icon>
         <span class="text-white text-body-1 font-weight-semibold d-none d-sm-inline">
-          Copilot Mission Control
+          {{ appName }}
         </span>
       </div>
     </v-app-bar-title>

@@ -5,6 +5,7 @@ const props = defineProps<{ open: boolean }>()
 const emit = defineEmits<{ 'update:open': [value: boolean] }>()
 
 const { xs, lgAndUp } = useDisplay()
+const { appName } = useAppConfig()
 
 // Mobile (xs): temporary overlay drawer, controlled by open prop
 // Tablet (sm-md): permanent rail — icons only
@@ -44,7 +45,7 @@ const navItems = [
         class="ml-2 text-caption font-weight-bold text-truncate"
         style="color: #24292f"
       >
-        Mission Control
+        {{ appName }}
       </span>
     </div>
 
