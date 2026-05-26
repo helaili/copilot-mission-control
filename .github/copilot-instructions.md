@@ -1,0 +1,1 @@
+Stack: TypeScript,Node 22,Nuxt 4,Vuetify 4,Vue 3,Vitest
