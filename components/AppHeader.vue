@@ -16,7 +16,7 @@ const { appName } = useAppConfig()
     />
 
     <!-- Logo -->
-    <v-app-bar-title class="flex-grow-0 pr-4">
+    <v-app-bar-title class="flex-grow-1 pr-4">
       <div class="d-flex align-center ga-2">
         <v-icon color="white" size="28">mdi-rocket-launch</v-icon>
         <span class="text-white text-body-1 font-weight-semibold">
