@@ -19,7 +19,7 @@ const { appName } = useAppConfig()
     <v-app-bar-title class="flex-grow-0 pr-4">
       <div class="d-flex align-center ga-2">
         <v-icon color="white" size="28">mdi-rocket-launch</v-icon>
-        <span class="text-white text-body-1 font-weight-semibold d-none d-sm-inline">
+        <span class="text-white text-body-1 font-weight-semibold">
           {{ appName }}
         </span>
       </div>

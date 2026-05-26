@@ -5,7 +5,6 @@ const props = defineProps<{ open: boolean }>()
 const emit = defineEmits<{ 'update:open': [value: boolean] }>()
 
 const { xs, lgAndUp } = useDisplay()
-const { appName } = useAppConfig()
 
 // Mobile (xs): temporary overlay drawer, controlled by open prop
 // Tablet (sm-md): permanent rail — icons only
@@ -35,22 +34,6 @@ const navItems = [
     border="e"
     width="240"
   >
-    <!-- App name chip shown in rail/full modes (non-mobile) -->
-    <div class="d-none d-sm-flex align-center pa-3 pb-2">
-      <v-icon color="#24292f" :size="isRail ? 22 : 20" class="flex-shrink-0">
-        mdi-rocket-launch
-      </v-icon>
-      <span
-        v-if="!isRail"
-        class="ml-2 text-caption font-weight-bold text-truncate"
-        style="color: #24292f"
-      >
-        {{ appName }}
-      </span>
-    </div>
-
-    <v-divider class="d-none d-sm-flex mb-1" />
-
     <!-- Navigation items -->
     <v-list density="compact" nav class="pa-2">
       <v-tooltip
