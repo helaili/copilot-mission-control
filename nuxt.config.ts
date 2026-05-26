@@ -1,12 +1,15 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
+
+const APP_NAME = 'Copilot Mission Control'
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   app: {
     head: {
-      titleTemplate: '%s - Copilot Mission Control',
-      title: 'Copilot Mission Control',
+      titleTemplate: `%s - ${APP_NAME}`,
+      title: APP_NAME,
     },
   },
   modules: ['@nuxt/eslint', '@nuxt/test-utils'],
