@@ -11,11 +11,14 @@ export default defineNuxtConfig({
       title: APP_NAME,
     },
   },
-  modules: ['@nuxt/eslint', '@nuxt/test-utils'],
+  modules: ['@nuxt/eslint', '@nuxt/test-utils', 'nuxt-auth-utils'],
   build: {
     transpile: ['vuetify'],
   },
   vite: {
+    server: {
+      allowedHosts: ['copilot-mission-control.ngrok.dev'],
+    },
     plugins: [
       vuetify({ autoImport: true }),
     ],

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const emit = defineEmits<{ toggleDrawer: [] }>()
 
-const { isLoggedIn, userName, login, logout } = useAuth()
+const { isLoggedIn, userName, userLogin, userAvatarUrl, logout } = useAuth()
 const { appName } = useAppConfig()
 </script>
 
@@ -38,9 +38,9 @@ const { appName } = useAppConfig()
           size="small"
           rounded="md"
           class="text-none"
-          @click="login"
+          href="/auth/github"
         >
-          Sign in
+          Sign in with GitHub
         </v-btn>
 
         <!-- Logged-in: avatar + dropdown -->
@@ -54,7 +54,13 @@ const { appName } = useAppConfig()
               :ripple="false"
             >
               <v-avatar size="32" color="#539bf5">
-                <span class="text-caption font-weight-bold text-white">
+                <v-img
+                  v-if="userAvatarUrl"
+                  :src="userAvatarUrl"
+                  :alt="`${userName} GitHub avatar`"
+                  cover
+                />
+                <span v-else class="text-caption font-weight-bold text-white">
                   {{ userName.charAt(0).toUpperCase() }}
                 </span>
               </v-avatar>
@@ -68,7 +74,7 @@ const { appName } = useAppConfig()
                 {{ userName }}
               </v-list-item-title>
               <v-list-item-subtitle class="text-caption text-medium-emphasis">
-                Signed in
+                @{{ userLogin }}
               </v-list-item-subtitle>
             </v-list-item>
 
