@@ -18,7 +18,7 @@ const drawerModel = computed({
 })
 
 const navItems = [
-  { title: 'Summary', icon: 'mdi-view-dashboard', to: '/' },
+  { title: 'Dashboard', icon: 'mdi-view-dashboard', to: '/dashboard' },
   { title: 'Usage', icon: 'mdi-chart-bar', to: '/usage' },
   { title: 'Budgets', icon: 'mdi-wallet', to: '/budgets' },
 ]
