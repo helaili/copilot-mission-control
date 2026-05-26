@@ -1,7 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { APP_NAME } from './constants/app'
 import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
-
-const APP_NAME = 'Copilot Mission Control'
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
