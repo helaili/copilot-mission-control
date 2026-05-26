@@ -6,7 +6,7 @@ const { appName } = useAppConfig()
 </script>
 
 <template>
-  <v-app-bar color="#24292f" elevation="0" :height="56">
+  <v-app-bar color="#24292f" theme="dark" elevation="0" :height="56">
     <!-- Hamburger — visible only on mobile -->
     <v-app-bar-nav-icon
       color="white"
