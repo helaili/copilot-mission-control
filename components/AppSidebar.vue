@@ -6,11 +6,17 @@ const emit = defineEmits<{ 'update:open': [value: boolean] }>()
 
 const { xs, lgAndUp } = useDisplay()
 
+// useDisplay() values are unreliable during SSR (no window).
+// Defer to client-side only to avoid hydration mismatches that leave
+// the component in a broken state.
+const mounted = ref(false)
+onMounted(() => { mounted.value = true })
+
 // Mobile (xs): temporary overlay drawer, controlled by open prop
 // Tablet (sm-md): permanent rail — icons only
 // Desktop (lg+): permanent full — icons + text
-const isTemporary = computed(() => xs.value)
-const isRail = computed(() => !xs.value && !lgAndUp.value)
+const isTemporary = computed(() => mounted.value && xs.value)
+const isRail = computed(() => mounted.value && !xs.value && !lgAndUp.value)
 
 const drawerModel = computed({
   get: () => (isTemporary.value ? props.open : true),
@@ -18,7 +24,7 @@ const drawerModel = computed({
 })
 
 const navItems = [
-  { title: 'Summary', icon: 'mdi-view-dashboard', to: '/' },
+  { title: 'Summary', icon: 'mdi-view-dashboard', to: '/summary' },
   { title: 'Usage', icon: 'mdi-chart-bar', to: '/usage' },
   { title: 'Budgets', icon: 'mdi-wallet', to: '/budgets' },
 ]
@@ -36,44 +42,34 @@ const navItems = [
   >
     <!-- Navigation items -->
     <v-list density="compact" nav class="pa-2">
-      <v-tooltip
+      <v-list-item
         v-for="item in navItems"
         :key="item.title"
-        :text="item.title"
-        :disabled="!isRail"
-        location="end"
+        :prepend-icon="item.icon"
+        :title="item.title"
+        :to="item.to"
+        rounded="md"
+        active-class="nav-active"
+        class="nav-item mb-1"
+        :aria-label="item.title"
       >
-        <template #activator="{ props: tooltipProps }">
-          <v-list-item
-            v-bind="tooltipProps"
-            :prepend-icon="item.icon"
-            :title="isRail ? '' : item.title"
-            :to="item.to"
-            rounded="md"
-            active-class="nav-active"
-            class="nav-item mb-1"
-            :aria-label="item.title"
-          />
-        </template>
-      </v-tooltip>
+        <v-tooltip activator="parent" :text="item.title" :disabled="!isRail" location="end" />
+      </v-list-item>
     </v-list>
 
     <!-- Footer help link -->
     <template #append>
       <v-divider />
       <div class="pa-2">
-        <v-tooltip :text="'Help'" :disabled="!isRail" location="end">
-          <template #activator="{ props: tooltipProps }">
-            <v-list-item
-              v-bind="tooltipProps"
-              prepend-icon="mdi-help-circle-outline"
-              :title="isRail ? '' : 'Help'"
-              rounded="md"
-              class="nav-item"
-              aria-label="Help"
-            />
-          </template>
-        </v-tooltip>
+        <v-list-item
+          prepend-icon="mdi-help-circle-outline"
+          title="Help"
+          rounded="md"
+          class="nav-item"
+          aria-label="Help"
+        >
+          <v-tooltip activator="parent" text="Help" :disabled="!isRail" location="end" />
+        </v-list-item>
       </div>
     </template>
   </v-navigation-drawer>
