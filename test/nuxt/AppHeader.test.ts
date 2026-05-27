@@ -17,9 +17,25 @@ function mountHeader(emits?: Record<string, unknown>) {
 
 describe('AppHeader', () => {
   beforeEach(() => {
-    const { logout } = useAuth()
-    logout()
+    const session = useState('nuxt-session', () => null)
+    const authReady = useState('nuxt-auth-ready', () => true)
+    session.value = null
+    authReady.value = true
   })
+
+  function signInAsGithubUser() {
+    const session = useState('nuxt-session', () => null)
+    session.value = {
+      user: {
+        id: 1,
+        login: 'octocat',
+        name: 'The Octocat',
+        avatarUrl: 'https://avatars.githubusercontent.com/u/1?v=4',
+        email: 'octocat@github.com',
+      },
+      loggedInAt: new Date(),
+    }
+  }
 
   it('renders the app name from config', async () => {
     const { appName } = useAppConfig()
@@ -32,9 +48,9 @@ describe('AppHeader', () => {
     expect(wrapper.html()).toContain('mdi-rocket-launch')
   })
 
-  it('renders "Sign in" button when logged out', async () => {
+  it('renders "Sign in with GitHub" button when logged out', async () => {
     const wrapper = await mountHeader()
-    expect(wrapper.text()).toContain('Sign in')
+    expect(wrapper.text()).toContain('Sign in with GitHub')
   })
 
   it('does not render user avatar when logged out', async () => {
@@ -43,15 +59,13 @@ describe('AppHeader', () => {
   })
 
   it('renders user avatar button when logged in', async () => {
-    const { login } = useAuth()
-    login()
+    signInAsGithubUser()
     const wrapper = await mountHeader()
     expect(wrapper.find('[aria-label="User menu"]').exists()).toBe(true)
   })
 
   it('does not render sign-in button when logged in', async () => {
-    const { login } = useAuth()
-    login()
+    signInAsGithubUser()
     const wrapper = await mountHeader()
     expect(wrapper.text()).not.toContain('Sign in')
   })
@@ -64,12 +78,16 @@ describe('AppHeader', () => {
     expect(onToggle.onToggleDrawer).toHaveBeenCalledOnce()
   })
 
-  it('calls login when sign-in button is clicked', async () => {
+  it('links sign-in to the GitHub OAuth route', async () => {
     const wrapper = await mountHeader()
-    const signInBtn = wrapper.findAll('button').find(b => b.text() === 'Sign in')
-    expect(signInBtn).toBeDefined()
-    await signInBtn!.trigger('click')
-    const { isLoggedIn } = useAuth()
-    expect(isLoggedIn.value).toBe(true)
+    const signInLink = wrapper.find('a[href="/auth/github"]')
+    expect(signInLink.exists()).toBe(true)
+    expect(signInLink.text()).toBe('Sign in with GitHub')
+  })
+
+  it('renders the GitHub avatar when available', async () => {
+    signInAsGithubUser()
+    const wrapper = await mountHeader()
+    expect(wrapper.find('[aria-label="The Octocat GitHub avatar"]').exists()).toBe(true)
   })
 })
