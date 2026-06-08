@@ -1,4 +1,3 @@
-
 #!/bin/bash
 # .github/setup-worktree.sh
 
