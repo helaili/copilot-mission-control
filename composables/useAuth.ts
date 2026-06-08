@@ -9,7 +9,7 @@ export const useAuth = () => {
   const login = () => navigateTo('/auth/github', { external: true })
   const logout = async () => {
     await clear()
-    await navigateTo('/auth/github', { external: true })
+    await navigateTo('/')
   }
 
   return { isLoggedIn, userName, userLogin, userAvatarUrl, login, logout }

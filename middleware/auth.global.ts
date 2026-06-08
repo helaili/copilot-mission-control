@@ -16,7 +16,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
   }
 
   if (to.path === '/' && loggedIn.value) {
-    return navigateTo('/usage')
+    return navigateTo('/summary')
   }
 
   if (!isPublic && !loggedIn.value) {
