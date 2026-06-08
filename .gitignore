@@ -29,3 +29,11 @@ coverage/
 # Playwright
 playwright-report/
 test-results/
+
+# Private keys and credentials
+*.pem
+*.key
+*.crt
+*.p12
+*.jks
+*.pfx
