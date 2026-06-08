@@ -51,4 +51,11 @@ describe('AppSidebar', () => {
     expect(html).toContain('aria-label="Usage"')
     expect(html).toContain('aria-label="Budgets"')
   })
+
+  it('renders Summary link to /summary', async () => {
+    const wrapper = await mountSidebar()
+    const summaryItem = wrapper.findAllComponents({ name: 'VListItem' })
+      .find(item => item.attributes('aria-label') === 'Summary')
+    expect(summaryItem?.props('to')).toBe('/summary')
+  })
 })
