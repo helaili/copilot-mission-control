@@ -6,8 +6,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   runtimeConfig: {
-    // Server-only — read from NUXT_GITHUB_APP_ID and NUXT_GITHUB_APP_PRIVATE_KEY
-    githubAppId: '',
+    // Server-only — read from NUXT_GITHUB_APP_PRIVATE_KEY
     githubAppPrivateKey: '', // base64-encoded PEM
   },
   app: {

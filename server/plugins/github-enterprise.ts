@@ -1,16 +1,16 @@
 export default defineNitroPlugin(async () => {
   const config = useRuntimeConfig()
-  const appId = config.githubAppId
+  const clientId = config.oauth?.github?.clientId
   const privateKeyBase64 = config.githubAppPrivateKey
 
-  if (!appId || !privateKeyBase64) {
-    console.warn('[github-app] NUXT_GITHUB_APP_ID or NUXT_GITHUB_APP_PRIVATE_KEY is not set. Skipping enterprise info retrieval.')
+  if (!clientId || !privateKeyBase64) {
+    console.warn('[github-app] NUXT_OAUTH_GITHUB_CLIENT_ID or NUXT_GITHUB_APP_PRIVATE_KEY is not set. Skipping enterprise info retrieval.')
     return
   }
 
   try {
     const privateKeyPem = Buffer.from(privateKeyBase64, 'base64').toString('utf-8')
-    const jwt = generateAppJWT(appId, privateKeyPem)
+    const jwt = generateAppJWT(clientId, privateKeyPem)
 
     const installations = await fetchAllInstallations(jwt)
     const enterpriseInfo = findEnterpriseInstallation(installations)
