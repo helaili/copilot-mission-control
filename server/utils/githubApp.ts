@@ -1,10 +1,10 @@
 import { createSign } from 'node:crypto'
 
 export interface GitHubInstallationAccount {
-  login: string
+  slug: string
   id: number
   type: string
-  name?: string
+  name: string
 }
 
 export interface GitHubInstallation {
@@ -93,7 +93,7 @@ export function findEnterpriseInstallation(installations: GitHubInstallation[]):
   if (!account) return null
 
   return {
-    slug: account.login,
-    name: account.name ?? account.login,
+    slug: account.slug,
+    name: account.name,
   }
 }

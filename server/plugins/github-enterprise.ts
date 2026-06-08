@@ -13,6 +13,7 @@ export default defineNitroPlugin(async () => {
     const jwt = generateAppJWT(clientId, privateKeyPem)
 
     const installations = await fetchAllInstallations(jwt)
+    console.log('[github-app] Installations:', installations)
     const enterpriseInfo = findEnterpriseInstallation(installations)
 
     if (!enterpriseInfo) {
