@@ -64,7 +64,7 @@ function makeInstallation(overrides: Partial<GitHubInstallation> = {}): GitHubIn
     id: 1,
     target_type: 'Enterprise',
     suspended_at: null,
-    account: { login: 'my-enterprise', id: 100, type: 'Enterprise', name: 'My Enterprise' },
+    account: { slug: 'my-enterprise', id: 100, type: 'Enterprise', name: 'My Enterprise' },
     ...overrides,
   }
 }
@@ -75,9 +75,9 @@ describe('findEnterpriseInstallation', () => {
     expect(result).toEqual({ slug: 'my-enterprise', name: 'My Enterprise' })
   })
 
-  it('falls back to login as name when account.name is absent', () => {
-    const inst = makeInstallation({ account: { login: 'ent-slug', id: 1, type: 'Enterprise' } })
-    expect(findEnterpriseInstallation([inst])).toEqual({ slug: 'ent-slug', name: 'ent-slug' })
+  it('returns account slug and name from matching installation', () => {
+    const inst = makeInstallation({ account: { slug: 'ent-slug', id: 1, type: 'Enterprise', name: 'Ent Slug' } })
+    expect(findEnterpriseInstallation([inst])).toEqual({ slug: 'ent-slug', name: 'Ent Slug' })
   })
 
   it('detects enterprise by account.type when target_type is missing', () => {
@@ -91,7 +91,7 @@ describe('findEnterpriseInstallation', () => {
   })
 
   it('returns null when no enterprise installation exists', () => {
-    const orgInst = makeInstallation({ target_type: 'Organization', account: { login: 'my-org', id: 1, type: 'Organization' } })
+    const orgInst = makeInstallation({ target_type: 'Organization', account: { slug: 'my-org', id: 1, type: 'Organization', name: 'My Org' } })
     expect(findEnterpriseInstallation([orgInst])).toBeNull()
   })
 
@@ -106,8 +106,8 @@ describe('findEnterpriseInstallation', () => {
 
   it('returns first match and warns when multiple enterprise installations found', () => {
     const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
-    const inst1 = makeInstallation({ id: 1, account: { login: 'ent-a', id: 1, type: 'Enterprise', name: 'Ent A' } })
-    const inst2 = makeInstallation({ id: 2, account: { login: 'ent-b', id: 2, type: 'Enterprise', name: 'Ent B' } })
+    const inst1 = makeInstallation({ id: 1, account: { slug: 'ent-a', id: 1, type: 'Enterprise', name: 'Ent A' } })
+    const inst2 = makeInstallation({ id: 2, account: { slug: 'ent-b', id: 2, type: 'Enterprise', name: 'Ent B' } })
 
     const result = findEnterpriseInstallation([inst1, inst2])
     expect(result).toEqual({ slug: 'ent-a', name: 'Ent A' })
