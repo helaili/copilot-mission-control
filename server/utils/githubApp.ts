@@ -78,7 +78,8 @@ export function findEnterpriseInstallation(installations: GitHubInstallation[]):
   const enterpriseInstalls = installations.filter(
     inst =>
       inst.suspended_at === null &&
-      (inst.target_type === 'Enterprise' || inst.account?.type === 'Enterprise'),
+      inst.account !== null &&
+      (inst.target_type === 'Enterprise' || inst.account.type === 'Enterprise'),
   )
 
   if (enterpriseInstalls.length === 0) return null
