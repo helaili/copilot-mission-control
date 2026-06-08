@@ -1,11 +1,13 @@
+const PUBLIC_PATHS = ['/', '/auth/']
+
 export default defineNuxtRouteMiddleware(async (to) => {
   if (import.meta.test) {
     return
   }
 
-  if (to.path.startsWith('/auth/')) {
-    return
-  }
+  const isPublic = PUBLIC_PATHS.some(p =>
+    p.endsWith('/') ? to.path.startsWith(p) : to.path === p,
+  )
 
   const { loggedIn, fetch } = useUserSession()
 
@@ -13,7 +15,11 @@ export default defineNuxtRouteMiddleware(async (to) => {
     await fetch()
   }
 
-  if (!loggedIn.value) {
+  if (to.path === '/' && loggedIn.value) {
+    return navigateTo('/summary')
+  }
+
+  if (!isPublic && !loggedIn.value) {
     return navigateTo('/auth/github', { external: true })
   }
 })
