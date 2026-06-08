@@ -8,12 +8,9 @@ import {
 } from '../../server/utils/githubApp'
 
 let testPrivateKeyPem: string
-let testPublicKeyPem: string
-
 beforeAll(() => {
-  const { privateKey, publicKey } = generateKeyPairSync('rsa', { modulusLength: 2048 })
+  const { privateKey } = generateKeyPairSync('rsa', { modulusLength: 2048 })
   testPrivateKeyPem = privateKey.export({ type: 'pkcs1', format: 'pem' }).toString()
-  testPublicKeyPem = publicKey.export({ type: 'pkcs1', format: 'pem' }).toString()
 })
 
 // --- generateAppJWT ---
