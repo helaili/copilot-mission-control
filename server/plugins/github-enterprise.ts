@@ -1,19 +1,20 @@
+import { generateAppJWT, fetchAllInstallations, findEnterpriseInstallation } from '~/server/utils/githubApp'
+
 export default defineNitroPlugin(async () => {
   const config = useRuntimeConfig()
-  const clientId = config.oauth?.github?.clientId
+  const githubAppId = config.githubAppId
   const privateKeyBase64 = config.githubAppPrivateKey
 
-  if (!clientId || !privateKeyBase64) {
-    console.warn('[github-app] NUXT_OAUTH_GITHUB_CLIENT_ID or NUXT_GITHUB_APP_PRIVATE_KEY is not set. Skipping enterprise info retrieval.')
+  if (!githubAppId || !privateKeyBase64) {
+    console.warn('[github-app] NUXT_GITHUB_APP_ID or NUXT_GITHUB_APP_PRIVATE_KEY is not set. Skipping enterprise info retrieval.')
     return
   }
 
   try {
     const privateKeyPem = Buffer.from(privateKeyBase64, 'base64').toString('utf-8')
-    const jwt = generateAppJWT(clientId, privateKeyPem)
+    const jwt = generateAppJWT(githubAppId, privateKeyPem)
 
     const installations = await fetchAllInstallations(jwt)
-    console.log('[github-app] Installations:', installations)
     const enterpriseInfo = findEnterpriseInstallation(installations)
 
     if (!enterpriseInfo) {
@@ -21,7 +22,6 @@ export default defineNitroPlugin(async () => {
       return
     }
 
-    setEnterpriseInfo(enterpriseInfo)
     process.env.ENTERPRISE_NAME = enterpriseInfo.name
     process.env.ENTERPRISE_SLUG = enterpriseInfo.slug
 
