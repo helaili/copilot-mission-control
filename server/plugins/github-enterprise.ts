@@ -1,3 +1,5 @@
+import { setEnterpriseInfo } from "../utils/enterpriseStore"
+
 export default defineNitroPlugin(async () => {
   const config = useRuntimeConfig()
   const clientId = config.oauth?.github?.clientId
@@ -20,6 +22,7 @@ export default defineNitroPlugin(async () => {
       return
     }
 
+    setEnterpriseInfo(enterpriseInfo)
     process.env.ENTERPRISE_NAME = enterpriseInfo.name
     process.env.ENTERPRISE_SLUG = enterpriseInfo.slug
 

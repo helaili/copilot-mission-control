@@ -112,3 +112,23 @@ describe('findEnterpriseInstallation', () => {
     consoleSpy.mockRestore()
   })
 })
+
+
+// --- enterpriseStore ---
+
+describe('enterpriseStore', () => {
+  it('stores and retrieves enterprise info', async () => {
+    const { getEnterpriseInfo, setEnterpriseInfo } = await import('../../server/utils/enterpriseStore')
+    const info: EnterpriseInfo = { name: 'Test Enterprise', slug: 'test-enterprise' }
+    setEnterpriseInfo(info)
+    expect(getEnterpriseInfo()).toEqual(info)
+  })
+
+  it('returns null before any value is set', async () => {
+    // Use a fresh module by resetting with null
+    const { getEnterpriseInfo, setEnterpriseInfo } = await import('../../server/utils/enterpriseStore')
+    // @ts-expect-error - testing null reset
+    setEnterpriseInfo(null)
+    expect(getEnterpriseInfo()).toBeNull()
+  })
+})
