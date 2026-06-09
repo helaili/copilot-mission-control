@@ -23,7 +23,7 @@ export default defineNitroPlugin(async () => {
     process.env.ENTERPRISE_NAME = enterpriseInfo.name
     process.env.ENTERPRISE_SLUG = enterpriseInfo.slug
 
-    console.log(`[github-app] Enterprise: "${enterpriseInfo.name}" (slug: "${enterpriseInfo.slug}")`)
+    console.log(`[github-app] Enterprise: "${enterpriseInfo.name}", slug: "${enterpriseInfo.slug}"`)
   }
   catch (err) {
     console.error('[github-app] Failed to retrieve enterprise information:', err)
