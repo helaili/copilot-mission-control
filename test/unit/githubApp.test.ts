@@ -127,7 +127,6 @@ describe('enterpriseStore', () => {
   it('returns null before any value is set', async () => {
     // Use a fresh module by resetting with null
     const { getEnterpriseInfo, setEnterpriseInfo } = await import('../../server/utils/enterpriseStore')
-    // @ts-expect-error - testing null reset
     setEnterpriseInfo(null)
     expect(getEnterpriseInfo()).toBeNull()
   })
