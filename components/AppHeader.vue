@@ -3,6 +3,7 @@ const emit = defineEmits<{ toggleDrawer: [] }>()
 
 const { isLoggedIn, userName, userLogin, userAvatarUrl, logout } = useAuth()
 const { appName } = useAppConfig()
+const { enterpriseName } = useEnterprise()
 </script>
 
 <template>
@@ -43,8 +44,16 @@ const { appName } = useAppConfig()
           Sign in with GitHub
         </v-btn>
 
-        <!-- Logged-in: avatar + dropdown -->
-        <v-menu v-else location="bottom end" :offset="8">
+        <!-- Logged-in: enterprise name + avatar + dropdown -->
+        <template v-else>
+          <span
+            v-if="enterpriseName"
+            class="text-white text-body-2 font-weight-medium mr-2 d-none d-sm-inline"
+          >
+            {{ enterpriseName }}
+          </span>
+
+          <v-menu location="bottom end" :offset="8">
           <template #activator="{ props: menuProps }">
             <v-btn
               v-bind="menuProps"
@@ -104,7 +113,8 @@ const { appName } = useAppConfig()
               />
             </v-list>
           </v-card>
-        </v-menu>
+          </v-menu>
+        </template>
       </div>
     </template>
   </v-app-bar>
